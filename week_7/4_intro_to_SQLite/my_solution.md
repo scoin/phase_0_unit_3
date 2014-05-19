@@ -14,7 +14,7 @@
 <!-- paste your terminal output here -->
 
 ## Release 4: Change a value
-<!-- paste your terminal output here -->
+1|Kimmy|Lin|kimmy@devbootcamp.com|2014-05-15 00:10:41|2014-05-15 01:40:12|Ninja Coder
 
 ## Release 5: Reflect
 <!-- Add your reflection here -->
