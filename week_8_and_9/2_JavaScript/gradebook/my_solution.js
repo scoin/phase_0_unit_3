@@ -1,5 +1,4 @@
-/*
-U3.W8-9: Gradebook from Names and Scores
+/*U3.W8-9: Gradebook from Names and Scores
 
 You will work with the following two variables.  The first, students, holds the names of four students.  
 The second, scores, holds groups of test scores.  The relative positions of elements within the two 
@@ -26,6 +25,26 @@ var scores = [ [80, 70, 70, 100],
 // __________________________________________
 // Write your code below.
 
+var average = function(scores){
+	sum = 0;
+	for(var i = 0; i < scores.length; i++){
+		sum += scores[i];
+	}
+	return sum / scores.length;
+}
+
+var gradebook = {
+	Joseph : {testScores : scores[0]},
+	Susan : {testScores : scores[1]},
+	William : {testScores : scores[2]},
+	Elizabeth : {testScores : scores[3]},
+	addScore : function(name, grade){
+		this[name].testScores.push(grade);
+	},
+	getAverage : function(name){
+		return average(this[name].testScores);
+	}
+}
 
 
 
@@ -44,8 +63,11 @@ var scores = [ [80, 70, 70, 100],
 // __________________________________________
 // Reflect
 
-
-
+//Wow, my javascript knowledge had atrophied quickly. I had to go through
+//all my code from 5 weeks ago, and still do a w3schools lookup. This simple
+//task took me over an over. BUT, this was really rewarding. My js is back
+//and it feels great. The syntax of objects was the main issue.
+//Seeing assert written in JS was also helpful.
 
 
 
@@ -121,3 +143,4 @@ assert(
   "gradebook's getAverage should return 80 if passed 'Jospeh'.",
   "9. "
 )
+

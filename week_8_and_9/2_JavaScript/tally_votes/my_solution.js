@@ -68,8 +68,37 @@ var officers = {
 
 // __________________________________________
 // Initial Solution
+/*
+for(var voter in votes){
+  if(voteCount.president[votes[voter].president] === undefined)
+    voteCount.president[votes[voter].president] = 1;
+  else
+    voteCount.president[votes[voter].president] += 1;
+  if(voteCount.vicePresident[votes[voter].vicePresident] === undefined)
+    voteCount.vicePresident[votes[voter].vicePresident] = 1;
+  else
+    voteCount.vicePresident[votes[voter].vicePresident] += 1;
+  if (voteCount.secretary[votes[voter].secretary] === undefined)
+    voteCount.secretary[votes[voter].secretary] = 1;
+  else
+  voteCount.secretary[votes[voter].secretary] += 1;
+  if (voteCount.treasurer[votes[voter].treasurer] === undefined)
+    voteCount.treasurer[votes[voter].treasurer] = 1;
+  else
+  voteCount.treasurer[votes[voter].treasurer] += 1;
+}
 
-
+for(var office in voteCount){
+  for(var candidate in voteCount[office]){
+    if(officers[office] === undefined)
+      officers[office] = candidate;
+    else{
+      if(voteCount[office][candidate] > voteCount[office][officers[office]])
+      officers[office] = candidate;
+    }
+  }
+}
+*/
 
 
 
@@ -77,16 +106,42 @@ var officers = {
 
 // __________________________________________
 // Refactored Solution
+for(var voter in votes){
+  for(var title in votes[voter]){
+    if(voteCount[title][votes[voter][title]] === undefined) 
+      voteCount[title][votes[voter][title]] = 1;
+    else
+      voteCount[title][votes[voter][title]] += 1;
+  }
 
+}
 
-
+for(var office in voteCount){
+  for(var candidate in voteCount[office]){
+    if(officers[office] === undefined)
+      officers[office] = candidate;
+    else{
+      if(voteCount[office][candidate] > voteCount[office][officers[office]])
+      officers[office] = candidate;
+    }
+  }
+}
 
 
 
 // __________________________________________
 // Reflection
 
-
+//Another tough one - if you wanted to do it properly. I started with using the literals
+//to select the properties - as you'll see above - and after alot of copy pasting
+//I realized there had to be a better way. This one took some stackoverflow.
+//Accessing nested objects seems clumsy at first, but as I got used to it and my code
+//got more and more efficient, I realized it's pretty straightforward, and the dynamic
+//creation and updating is quite elegant.
+//I'm sure there's still something more I can do - like getting rid of those undefined
+//conditionals - but I'll have to figure it out another time. Obviously I tried it 
+//without those, and without defining the property / value first, it stays undefined
+//when trying operations like greater-than, less-than, or +=.
 
 
 
