@@ -75,7 +75,7 @@ end
 # 3. Refactored Solution (Comment the other code to run this)
 
 def valid_triangle?(a, b, c)
-return false if [a,b,c].any? {|side| side == 0}
+#return false if [a,b,c].any? {|side| side == 0} wrote this but its not needed
 [a,b,c].max < ([a,b,c].inject(:+) - [a,b,c].max)
 end
 
