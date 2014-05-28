@@ -1,0 +1,58 @@
+<html>
+  <body>
+    <form action="" method="post" name="groceries">
+ 	<input type="text" name="item" value="item" id="item">
+ 	<input type="text" name="qty" value="1" id="qty">
+  	<input type="button" onclick="myList.add(document.groceries.item.value, document.groceries.qty.value);" value="add">
+  	<input type="button" onclick="myList.remove(document.groceries.item.value, document.groceries.qty.value);" value="remove">
+  	<input type="button" onclick="myList.clear();" value="clear">
+	</form>
+	<div id = 'thelist'>
+	</div>
+    <script type="text/javascript">
+    var thelist = document.getElementById('thelist');
+    function groceryList(){
+	this.list = {};
+
+	this.add = function(item, qty){
+		qty = qty || 1;
+		if (this.list[item] === undefined)
+		this.list[item] = parseInt(qty);
+		else
+		this.list[item] += parseInt(qty);
+	this.read();
+	}
+	this.remove = function(item, qty){
+	qty = qty || this.list[item];
+
+	if ((parseInt(qty) === this.list[item]) || (parseInt(qty) > this.list[item]))
+		delete this.list[item];
+	else
+		this.list[item] = (this.list[item] - parseInt(qty));
+	this.read();
+	}
+
+	this.read = function(){
+		thelist.innerHTML = ('');
+		for(var item in this.list){
+			str = "<h3> " + this.list[item] + " " + item + "</h3>";
+			thelist.innerHTML += (str);
+			thelist.innerHTML += ("<p> </p>");
+		}
+	}
+
+	this.clear = function(){
+		for(var item in this.list)
+		delete this.list[item];
+
+		thelist.innerHTML = ('');
+	}
+
+}
+myList = new groceryList();
+myList.add("Red Bull 6 Pack");
+myList.add("Club Mate 500mL", 3);
+myList.read();
+    </script>
+  </body>
+</html>
