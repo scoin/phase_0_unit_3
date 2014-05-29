@@ -23,6 +23,7 @@
     var error_window= document.getElementById('error');
     function groceryList(){
 	this.list = {};
+	this.removed = {};
 
 	this.add = function(item, qty){
 		qty = parseInt(qty) || 1;
@@ -45,10 +46,10 @@
 		if (qty === undefined)
 			qty = this.list[item];
 		
-
-		
-		if (qty >= this.list[item])
+		if (qty >= this.list[item]){
+			this.removed[item] = this.list[item];
 			delete this.list[item];
+		}
 		else
 			this.list[item] = (this.list[item] - qty);
 		this.read();
@@ -58,7 +59,14 @@
 		thelist.innerHTML = ('');
 		error_window.innerHTML = ('');
 		for(var item in this.list){
-			str = "<h3> " + this.list[item] + " " + item + "</h3>";
+			addButton = "<input type='button' onclick='myList.add(" + '&quot;' + item + '&quot;' + "); 'value='add'>";
+			removeButton = "<input type='button' onclick='myList.remove(" + '&quot;' + item + '&quot;' + "); 'value='remove'>";
+			str = "<b>" + this.list[item] + " " + item + "</b>";
+			thelist.innerHTML += (addButton + removeButton + str);
+			thelist.innerHTML += ("<p> </p>");
+		}
+		for(var item in this.removed){
+			str = "<b><strike>" + this.removed[item] + " " + item + "</b></strike>";
 			thelist.innerHTML += (str);
 			thelist.innerHTML += ("<p> </p>");
 		}
@@ -67,6 +75,8 @@
 	this.clear = function(){
 		for(var item in this.list)
 		delete this.list[item];
+		for(var item in this.removed)
+		delete this.removed[item];
 		this.read();
 	}
 
