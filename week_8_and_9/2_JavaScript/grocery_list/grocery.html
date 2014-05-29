@@ -1,5 +1,6 @@
 <html>
   <body>
+  	<div id = "header"> <h1>Grocery List App</h1></div>
     <form action="" method="post" name="groceries">
  	<input type="text" name="item" value="item" id="item">
  	<input type="text" name="qty" value="1" id="qty">
@@ -12,36 +13,45 @@
 	<div id = 'error'>
 	</div>
     <script type="text/javascript">
+
+    function capitalize(string)
+	{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
     var thelist = document.getElementById('thelist');
     var error_window= document.getElementById('error');
     function groceryList(){
 	this.list = {};
 
 	this.add = function(item, qty){
-		qty = qty || 1;
-
-
-
+		qty = parseInt(qty) || 1;
+		item = capitalize(item);
 		if (this.list[item] === undefined)
-		this.list[item] = parseInt(qty);
+			this.list[item] = qty;
 		else
-		this.list[item] += parseInt(qty);
-	this.read();
+			this.list[item] += qty;
+		this.read();
 	}
 
 	this.remove = function(item, qty){
-	qty = qty || this.list[item];
-	
-	if (this.list[item] === undefined){
-	error_window.innerHTML = (item + " doesn't exist in list!");
-	return;
-	}
+		qty = parseInt(qty) || this.list[item];
+		item = capitalize(item);
+		
+		if (this.list[item] === undefined){
+			error_window.innerHTML = (item + " doesn't exist in list!");
+		return;
+		}
+		if (qty === undefined)
+			qty = this.list[item];
+		
 
-	if ((parseInt(qty) === this.list[item]) || (parseInt(qty) > this.list[item]))
-		delete this.list[item];
-	else
-		this.list[item] = (this.list[item] - parseInt(qty));
-	this.read();
+		
+		if (qty >= this.list[item])
+			delete this.list[item];
+		else
+			this.list[item] = (this.list[item] - qty);
+		this.read();
 	}
 
 	this.read = function(){
