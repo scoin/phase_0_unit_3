@@ -9,21 +9,33 @@
 	</form>
 	<div id = 'thelist'>
 	</div>
+	<div id = 'error'>
+	</div>
     <script type="text/javascript">
     var thelist = document.getElementById('thelist');
+    var error_window= document.getElementById('error');
     function groceryList(){
 	this.list = {};
 
 	this.add = function(item, qty){
 		qty = qty || 1;
+
+
+
 		if (this.list[item] === undefined)
 		this.list[item] = parseInt(qty);
 		else
 		this.list[item] += parseInt(qty);
 	this.read();
 	}
+
 	this.remove = function(item, qty){
 	qty = qty || this.list[item];
+	
+	if (this.list[item] === undefined){
+	error_window.innerHTML = (item + " doesn't exist in list!");
+	return;
+	}
 
 	if ((parseInt(qty) === this.list[item]) || (parseInt(qty) > this.list[item]))
 		delete this.list[item];
@@ -34,6 +46,7 @@
 
 	this.read = function(){
 		thelist.innerHTML = ('');
+		error_window.innerHTML = ('');
 		for(var item in this.list){
 			str = "<h3> " + this.list[item] + " " + item + "</h3>";
 			thelist.innerHTML += (str);
@@ -44,8 +57,7 @@
 	this.clear = function(){
 		for(var item in this.list)
 		delete this.list[item];
-
-		thelist.innerHTML = ('');
+		this.read();
 	}
 
 }
