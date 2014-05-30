@@ -78,7 +78,7 @@ end
 
 
 #print_arizona_reps
-print_reps_by_state('AZ', 'NY', 'ME', 'FL', 'AK')
+print_reps_by_state('AZ', 'NJ', 'NY', 'ME', 'FL', 'AK')
 
 print_longest_serving_reps(35)
 # TODO - Print out the number of years served as well as the name of the longest running reps
@@ -116,3 +116,11 @@ print_senator_vote_counts
 #   > #{minimum_years}")`.  Try to explain this as clearly as possible for 
 # your fellow students.  
 # If you're having trouble, find someone to pair on this explanation with you.
+
+#A gem like sqlite3 is a library. Adding it gives us objects and functions that ruby alone
+#would not recognize.
+#The variable $db is holding the file open, using ruby's File.open method. In this case, it is
+#also using the sqlite3 gem to recognize it as a database for parsing.
+#The .execute method on $db makes an SQL statement to the database, and receives a response.
+#This particular one is selecting the name from the congress_members table, where the total years in
+#congress is greater than the parameter minimum_years.
