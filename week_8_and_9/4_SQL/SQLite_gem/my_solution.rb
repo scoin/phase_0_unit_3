@@ -7,21 +7,13 @@ require 'sqlite3'
 
 $db = SQLite3::Database.open "congress_poll_results.db"
 
-
+=begin
 def print_arizona_reps
   puts "AZ REPRESENTATIVES"
   az_reps = $db.execute("SELECT name FROM congress_members WHERE location = 'AZ'")
   az_reps.each { |rep| puts rep }
 end
-
-def print_longest_serving_reps(minimum_years)  #sorry guys, oracle needs me, i didn't finish this!
-  puts "LONGEST SERVING REPRESENTATIVES"
-  puts $db.execute("SELECT name FROM congress_members WHERE years_in_congress > #{minimum_years}")
-end
-
-def print_lowest_grade_level_speakers
-  puts "LOWEST GRADE LEVEL SPEAKERS (less than < 8th grade)"
-end
+=end
 
 def print_separator
   puts 
@@ -29,18 +21,72 @@ def print_separator
   puts 
 end
 
+def print_reps_by_state(*states)
+  states.each{|state| 
+  	puts "#{state} REPRESENTATIVES"
+  	state_reps = $db.execute("SELECT name FROM congress_members WHERE location = '#{state}'")
 
-print_arizona_reps
+  	state_reps.sort_by{|name| 
+  		name.to_s.split(' ').last}.each { |rep| puts rep }
 
-print_separator
+  	print_separator
+}
+  
+end
+
+
+
+def print_longest_serving_reps(minimum_years)  #sorry guys, oracle needs me, i didn't finish this!
+  puts "LONGEST SERVING REPRESENTATIVES"
+  longest_serving = $db.execute("SELECT name, years_in_congress FROM congress_members WHERE years_in_congress > #{minimum_years}")
+  ls = {}
+
+  longest_serving.each{|pair| ls[pair[0]] = pair[1] }
+
+  ls.sort_by{|k,v| v}.reverse.each{|k,v| 
+  	print "#{k} - #{v} years"
+	puts }
+
+	print_separator
+
+end
+
+def print_lowest_grade_level_speakers(grade_level)
+  puts "LOWEST GRADE LEVEL SPEAKERS (less than #{grade_level})"
+  lowest_grade = $db.execute("SELECT name, grade_current FROM congress_members WHERE grade_current < #{grade_level}")
+  lg = {}
+
+  lowest_grade.each{|pair| lg[pair[0]] = pair[1] }
+
+  lg.sort_by{|k,v| v}.each{|k,v| 
+  	print "#{k} - Grade Level: #{v.round(2)}"
+	puts }
+	print_separator
+end
+
+def print_senator_vote_counts()
+	puts "VOTE COUNTS BY SENATOR"
+	vote_count = $db.execute("SELECT name, COUNT(votes.politician_id) FROM congress_members JOIN votes ON (congress_members.id=votes.politician_id) WHERE name LIKE 'Sen%' GROUP BY name")
+	vc = {}
+	vote_count.each{|pair| vc[pair[0]] = pair[1] }
+	vc.sort_by{|k,v| v}.reverse.each{|k,v| 
+  	print "#{k} - #{v} votes"
+	puts }
+end
+
+
+
+
+#print_arizona_reps
+print_reps_by_state('AZ', 'NY', 'ME', 'FL', 'AK')
 
 print_longest_serving_reps(35)
 # TODO - Print out the number of years served as well as the name of the longest running reps
 # output should look like:  Rep. C. W. Bill Young - 41 years
 
-print_separator
-print_lowest_grade_level_speakers 
+print_lowest_grade_level_speakers(8)
 # TODO - Need to be able to pass the grade level as an argument, look in schema for "grade_current" column
+
 
 # TODO - Make a method to print the following states representatives as well:
 # (New Jersey, New York, Maine, Florida, and Alaska)
@@ -53,6 +99,9 @@ print_lowest_grade_level_speakers
 # Create a listing of all of the Politicians and the number of votes they recieved
 # output should look like:  Sen. John McCain - 7,323 votes (This is an example, yours will not return this value, it should just 
 #    have a similar format)
+print_senator_vote_counts
+
+
 # Create a listing of each Politician and the voter that voted for them
 # output should include the senators name, then a long list of voters separated by a comma
 #
