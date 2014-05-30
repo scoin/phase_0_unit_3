@@ -13,7 +13,35 @@
 
 
 // 3. Initial Solution
+/*
+function groceryList(){
+	this.list = {};
 
+	this.add = function(item, qty){
+		qty = qty || 1;
+		this.list[item] = qty;
+	}
+	this.remove = function(item, qty){
+	qty = qty || this.list[item];
+
+	if ((qty === this.list[item]) || (qty > this.list[item]))
+		delete this.list[item];
+	else
+		this.list[item] = (this.list[item] - qty);
+	}
+
+	this.read = function(){
+		console.log("Grocery List");
+
+		for(var item in this.list)
+		console.log(item, this.list[item]);
+	}
+
+}
+*/
+
+
+// 4. Refactored Solution
 function groceryList(){
 	this.list = {};
 
@@ -41,11 +69,6 @@ function groceryList(){
 
 
 
-// 4. Refactored Solution
-
-
-
-
 
 
 // 1. DRIVER TESTS/ASSERT STATEMENTS GO BELOW THIS LINE
@@ -64,3 +87,9 @@ myList.read();
 
 
 // 5. Reflection 
+//Translating the ruby class to a js prototype was pretty easy, but there were challenges that taught me 
+//alot about js. Such as optional parameter handling.
+//The biggest aha was getting it to run in the browser with an HTML gui. I accomplished that here:
+//http://scoin.github.io/grocery.html 
+//It is modified from this node version of course, but the prototype and object literal is the same and unmodified.
+//I also added a few more features, and handled potential errors. 
